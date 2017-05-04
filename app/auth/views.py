@@ -13,8 +13,10 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.vertify_password(form.password.data):
             login_user(user, form.rember_me.data)
-            return redirect(request.args.get('next') or url_for('main.index'))
+            flash('Logged in successfully.')
+        return redirect(request.args.get('next') or url_for('main.index'))
         flash("Invalid username or password")
+
     return render_template('auth/login.html', form=form)
 
 
@@ -23,7 +25,7 @@ def login():
 def logout():
     logout_user()
     flash("You hava been loggde out")
-    return render_template(url_for('mian.index'))
+    return render_template('index.html')
 
 
 @auth.route('/register', methods=['GET', 'POST'])

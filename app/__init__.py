@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from config import config
 from flask_login import LoginManager
+
 from flask_mail import Mail
 
 login_manager = LoginManager()
