@@ -114,3 +114,18 @@ def load_user(userid):
 
 
 login_manager.anonymous_user = AnonymousUser
+
+
+class Article(db.Model):
+    __tablename__ = 'articles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(40), unique=True, index=True)
+    content = db.Column(db.Text, unique=True, index=True)
+    comments = db.Column(db.String(128))
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+
+
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
