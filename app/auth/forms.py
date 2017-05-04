@@ -5,7 +5,7 @@ from app.models import User
 
 class LoginForm(Form):
     email = StringField("Email", validators=[DataRequired(),Length(1,64),Email()])
-    password = StringField("Password", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
     rember_me = BooleanField("Keep me logged in")
     submit = SubmitField('Log In')
 

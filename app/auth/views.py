@@ -13,12 +13,13 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.vertify_password(form.password.data):
             login_user(user, form.rember_me.data)
-            return redirect(request.args.get('next') or url_for('mian.index'))
+            return redirect(request.args.get('next') or url_for('main.index'))
         flash("Invalid username or password")
     return render_template('auth/login.html', form=form)
 
 
 @auth.route('/logout', methods=['GET', 'POST'])
+@login_required
 def logout():
     logout_user()
     flash("You hava been loggde out")
