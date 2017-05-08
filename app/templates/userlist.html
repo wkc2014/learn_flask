@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %} User Profile {% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <b>User list:</b>
+    <p>
+        Press button to edit user profile!
+    </p>
+
+    <p>
+        {% if current_user.is_administrator %}
+            {% for user in users %}
+            <li>
+                <p><a class="btn btn-danger" href="{{ url_for('.edit_profile_admin', id=user.id) }}">{{ user.username }}</a></p>
+            </li>
+            {% endfor %}
+    {% endif %}
+    </p>
+</div>
+{% endblock %}

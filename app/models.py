@@ -6,6 +6,7 @@ from flask import current_app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 
+
 class Permission:
     FOLLOW = 0x01
     COMMENT = 0x02
@@ -52,6 +53,7 @@ class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), unique=True, index=True)
+    name = db.Column(db.String(40))
     email = db.Column(db.String(40), unique=True, index=True)
     password = db.Column(db.String(128))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
@@ -59,8 +61,8 @@ class User(UserMixin, db.Model):
     confirmed = db.Column(db.Boolean, default=False)
     location = db.Column(db.String(64))
     about_me = db.Column(db.Text())
-    memeber_since = db.Column(db.DateTime(), default=datetime.utcnow)
-    last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+    memeber_since = db.Column(db.DateTime(), default=datetime.now)
+    last_seen = db.Column(db.DateTime(), default=datetime.now)
 
     @property
     def password(self):
@@ -131,7 +133,6 @@ class Article(db.Model):
     content = db.Column(db.Text, unique=True, index=True)
     comments = db.Column(db.String(128))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-
 
 
 class Comment(db.Model):
