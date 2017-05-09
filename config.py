@@ -6,9 +6,9 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess thing '
-    FLASKY_MAIL_SENDER = '[Flasky]'
+    FLASKY_MAIL_SENDER = '18515061990@sina.cn'
     FLASKY_MAIL_SUBJECT_PREFIX = '<Flasky Admin <18515061990@sina.cn>>'
-    FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
+    FLASKY_ADMIN = '1687380807@qq.com'
     MAIL_SERVER = 'smtp.sina.com'
     MAIL_PORT = 25
     MAIL_USE_TLS = 'True'
