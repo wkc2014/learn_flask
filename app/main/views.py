@@ -2,7 +2,7 @@ from app.decorators import admin_required
 from . import main
 from .forms import EditPofileForm, EditPofileFormAdmin
 from flask import render_template, abort, redirect, url_for, flash
-from app.models import User, db, Role
+from app.models import User, db, Role, Drops
 from flask_login import current_user, login_required
 
 
@@ -71,6 +71,7 @@ def edit_profile_admin(id):
 
     return render_template('edit-profile.html', form=form, user=user)
 
+
 @main.route('/edit-profile/userlist', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -79,9 +80,12 @@ def edit_profile_admin_list():
 
     return render_template('userlist.html', users=users)
 
-@main.route('/drops/<page>')
+
+@main.route('/drops/page/<page>', methods=['GET', 'POST'])
 def drops(page):
-    user = User.query.filter_by(page=page).first()
-    if user is None:
+
+    pagination = Drops.query.order_by(Drops.id.desc()).paginate(page, 20, False)
+    posts = pagination.items
+    if article is None:
         abort(404)
-    return render_template('user.html', user=user)
+    return render_template('drops.html', posts=posts, pagination=pagination)

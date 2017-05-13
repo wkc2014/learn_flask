@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %} Drops {% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+{#    <div class="col-md-4">#}
+{#   {{ wtf.quick_form(form) }}#}
+{#    </div>#}
+
+
+    {% for post in posts %}
+    <li>
+
+            <a href="">{{ post }}</a>
+    </li>
+    {% endfor %}
+
+
+
+</div>
+{% endblock %}
+
+

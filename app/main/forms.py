@@ -34,3 +34,8 @@ class EditPofileFormAdmin(Form):
     def validate_username(self, field):
         if User.query.filter_by(email=field.data).first() and field.data != self.user.username:
             raise ValueError("Username already registered")
+
+
+class DropsForm(Form):
+    p_id = StringField('Real name', validators=[Length(0, 64)])
+    name = StringField('Location', validators=[Length(0, 64)])
