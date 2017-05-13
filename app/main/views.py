@@ -78,3 +78,10 @@ def edit_profile_admin_list():
     users = User.query.order_by(db.desc(User.id))
 
     return render_template('userlist.html', users=users)
+
+@main.route('/drops/<page>')
+def drops(page):
+    user = User.query.filter_by(page=page).first()
+    if user is None:
+        abort(404)
+    return render_template('user.html', user=user)

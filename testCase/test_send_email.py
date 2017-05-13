@@ -8,8 +8,8 @@ MAIL_SERVER = 'smtp.sina.com'
 MAIL_PORT = 25
 MAIL_USE_TLS = 'True'
 MAIL_USE_SSL = 'True'
-MAIL_USERNAME = '18515061990@sina.cn'
-MAIL_PASSWORD = '18515061990flask'
+MAIL_USERNAME = ''
+MAIL_PASSWORD = ''
 
 def send_email():
     msg = Message("Confirm Your Account",sender='FLASKY_MAIL_SENDER', recipients=["1091416917@qq.com"])

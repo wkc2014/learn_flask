@@ -6,14 +6,14 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess thing '
-    FLASKY_MAIL_SENDER = '18515061990@sina.cn'
-    FLASKY_MAIL_SUBJECT_PREFIX = '<Flasky Admin <18515061990@sina.cn>>'
-    FLASKY_ADMIN = '1687380807@qq.com'
+    FLASKY_MAIL_SENDER = ''
+    FLASKY_MAIL_SUBJECT_PREFIX = '<Flasky Admin <>>'
+    FLASKY_ADMIN = ''
     MAIL_SERVER = 'smtp.sina.com'
     MAIL_PORT = 25
     MAIL_USE_TLS = 'True'
-    MAIL_USERNAME = '18515061990@sina.cn'
-    MAIL_PASSWORD = '18515061990flask'
+    MAIL_USERNAME = ''
+    MAIL_PASSWORD = ''
 
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True

@@ -138,3 +138,11 @@ class Article(db.Model):
 class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
+
+
+class Drops(db.Model):
+    __tablename__ = 'drops'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(40), index=True)
+    path = db.Column(db.Text, index=True)
+    read = db.Column(db.String(128))

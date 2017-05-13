@@ -4,7 +4,6 @@ from flask_bootstrap import Bootstrap
 from config import config
 from flask_login import LoginManager
 from flask_moment import Moment
-
 from flask_mail import Mail
 
 login_manager = LoginManager()
@@ -16,6 +15,7 @@ bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
 
+
 def create_app(config_name='default'):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
@@ -26,6 +26,7 @@ def create_app(config_name='default'):
     login_manager.init_app(app)
     mail.init_app(app)
     moment.init_app(app)
+
 
     from .main import main as main_blueprint
     from .auth import auth as auth_blueprint
