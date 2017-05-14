@@ -37,4 +37,11 @@
             Last seen {{ moment(user.last_seen).fromNow() }}.
     </p>
 </div>
+{% include('_posts.html') %}
+{% import "_macros.html" as macros %}
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.index') }}
+</div>
+{% endif %}
 {% endblock %}

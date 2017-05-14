@@ -39,3 +39,7 @@ class EditPofileFormAdmin(Form):
 class DropsForm(Form):
     p_id = StringField('Real name', validators=[Length(0, 64)])
     name = StringField('Location', validators=[Length(0, 64)])
+
+class PostForm(Form):
+    body = TextAreaField("what's on your mind?", validators=[DataRequired()])
+    submit = SubmitField('Submit')

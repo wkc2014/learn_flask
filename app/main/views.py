@@ -1,14 +1,27 @@
 from app.decorators import admin_required
-from . import main
-from .forms import EditPofileForm, EditPofileFormAdmin
-from flask import render_template, abort, redirect, url_for, flash
-from app.models import User, db, Role, Drops
+from . import main, Permission
+from .forms import EditPofileForm, EditPofileFormAdmin, PostForm
+from flask import render_template, abort, redirect, url_for, flash, request, current_app
+from app.models import User, db, Role, Drops, Post
 from flask_login import current_user, login_required
 
 
-@main.route('/')
+@main.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    form = PostForm()
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False
+    )
+    posts = pagination.items
+
+    if current_user.can(Permission.WRITE_ARTICLES) and form.validate_on_submit():
+        post = Post(body=form.body.data,
+                    author=current_user._get_current_object())
+        db.session.add(post)
+        return redirect(url_for('.index'))
+
+    return render_template('index.html', form=form, posts=posts, pagination=pagination)
 
 
 @main.route('/article', methods=['GET', 'POST'])
@@ -21,7 +34,8 @@ def user(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
         abort(404)
-    return render_template('user.html', user=user)
+    posts = user.posts.order_by(Post.timestamp.desc()).all()
+    return render_template('user.html', user=user, posts=posts)
 
 
 @main.route('/edit-profile', methods=['GET', 'POST'])
@@ -83,7 +97,6 @@ def edit_profile_admin_list():
 
 @main.route('/drops/page/<page>', methods=['GET', 'POST'])
 def drops(page):
-
     pagination = Drops.query.order_by(Drops.id.desc()).paginate(page, 20, False)
     posts = pagination.items
     if article is None:
