@@ -95,10 +95,12 @@ def edit_profile_admin_list():
     return render_template('userlist.html', users=users)
 
 
-@main.route('/drops/page/<page>', methods=['GET', 'POST'])
-def drops(page):
-    pagination = Drops.query.order_by(Drops.id.desc()).paginate(page, 20, False)
-    posts = pagination.items
-    if article is None:
-        abort(404)
-    return render_template('drops.html', posts=posts, pagination=pagination)
+@main.route('/drops', methods=['GET', 'POST'])
+def drops():
+    page = request.args.get('page', default=1, type=int)
+    pagination = Drops.query.order_by(Drops.id).paginate(
+        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False
+    )
+    d_posts = pagination.items
+
+    return render_template('drops.html', posts=d_posts, pagination=pagination)

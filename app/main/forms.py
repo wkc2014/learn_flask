@@ -36,10 +36,6 @@ class EditPofileFormAdmin(Form):
             raise ValueError("Username already registered")
 
 
-class DropsForm(Form):
-    p_id = StringField('Real name', validators=[Length(0, 64)])
-    name = StringField('Location', validators=[Length(0, 64)])
-
 class PostForm(Form):
     body = TextAreaField("what's on your mind?", validators=[DataRequired()])
     submit = SubmitField('Submit')

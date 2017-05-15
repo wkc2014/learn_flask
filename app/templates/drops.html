@@ -3,22 +3,28 @@
 {% block title %} Drops {% endblock %}
 
 {% block page_content %}
-<div class="page-header">
-{#    <div class="col-md-4">#}
-{#   {{ wtf.quick_form(form) }}#}
-{#    </div>#}
+    <div class="page-header">
 
+        <h1>
+            Show you something interesting!
+        </h1>
 
-    {% for post in posts %}
-    <li>
-
-            <a href="">{{ post }}</a>
-    </li>
-    {% endfor %}
-
-
-
+    </div>
+    <div>
+        <ul class="posts">
+            {% for post in posts %}
+                <li class="post">
+                    <div class="post-body">
+                        <a href="{{ post.path }}" target="_blank">{{ post.name }}</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% import "_macros.html" as macros %}
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.index') }}
 </div>
+{% endif %}
 {% endblock %}
-
-
