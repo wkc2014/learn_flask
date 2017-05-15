@@ -104,3 +104,7 @@ def drops():
     d_posts = pagination.items
 
     return render_template('drops.html', posts=d_posts, pagination=pagination)
+
+@main.route('/<drops_name>', methods=['GET', 'POST'])
+def per_drops(drops_name):
+    return render_template(drops_name)

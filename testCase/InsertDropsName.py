@@ -2,12 +2,11 @@ import sqlite3
 import os
 
 
-f = file('D:\\drops_file_name.txt','w')
-file_dir = 'D:\\testhtml\\'
+file_dir = 'D:\\FlaskForDrops\\drops_server\\app\\static\\drops_html\\'
 
 filename = []
 
-for root,dirs,files in os.walk(file_dir):
+for root,dirs,files in os.walk(file_dir,topdown=False):
 	filename = files
 
 def insetr_sql(db_name):
@@ -15,8 +14,8 @@ def insetr_sql(db_name):
     num = 1
 
     for name in filename:
-        # print name[0:10]
-        insert_sql = '''insert into drops(id,name,path,read) values (%s,'%s','file:///D:/drops_html/%s','')''' % (num, name.decode('GBK'),name.decode('GBK'))
+
+        insert_sql = '''insert into drops(id,name,path,read) values (%s,'%s','static/drops_html/%s','')''' % (num, name.decode('GBK'),name.decode('GBK'))
         
         print insert_sql
 
@@ -28,5 +27,5 @@ def insetr_sql(db_name):
 
 
 if __name__ == '__main__':
-    db_name = 'E:\\0x01 PythonCode\\FlaskProject\\learn_flask\\data-dev.sqlite'
+    db_name = 'D:\\FlaskForDrops\\drops_server\\data-dev.sqlite'
     insetr_sql(db_name)

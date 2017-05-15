@@ -15,7 +15,7 @@
             {% for post in posts %}
                 <li class="post">
                     <div class="post-body">
-                        <a href="{{ post.path }}" target="_blank">{{ post.name }}</a>
+                        <a href="{{ url_for('main.per_drops', drops_name=post.path) }}" target="_blank">{{ post.name }}</a>
                     </div>
                 </li>
             {% endfor %}
