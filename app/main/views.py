@@ -1,6 +1,6 @@
 from app.decorators import admin_required
 from . import main, Permission
-from .forms import EditPofileForm, EditPofileFormAdmin, PostForm
+from .forms import EditPofileForm, EditPofileFormAdmin, PostForm, ReadForm
 from flask import render_template, abort, redirect, url_for, flash, request, current_app
 from app.models import User, db, Role, Drops, Post
 from flask_login import current_user, login_required
@@ -104,6 +104,7 @@ def drops():
     d_posts = pagination.items
 
     return render_template('drops.html', posts=d_posts, pagination=pagination)
+
 
 @main.route('/<drops_name>', methods=['GET', 'POST'])
 def per_drops(drops_name):

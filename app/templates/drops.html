@@ -10,21 +10,24 @@
         </h1>
 
     </div>
-    <div>
-        <ul class="posts">
-            {% for post in posts %}
-                <li class="post">
-                    <div class="post-body">
-                        <a href="{{ url_for('main.per_drops', drops_name=post.path) }}" target="_blank">{{ post.name }}</a>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-{% import "_macros.html" as macros %}
-{% if pagination %}
-<div class="pagination">
-    {{ macros.pagination_widget(pagination, '.index') }}
-</div>
-{% endif %}
+    <table>
+        {% for post in posts %}
+            <tr>
+                <td id="{{ post.id }}">
+                    <a href="{{ url_for('main.per_drops', drops_name=post.path) }}"
+                       target="_blank">{{ post.name }}</a>
+                </td>
+                <td align="right" width="100">
+                    <a type="submit">已阅</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% import "_macros.html" as macros %}
+    {% if pagination %}
+        <div class="pagination">
+            {{ macros.pagination_widget(pagination, '.drops') }}
+        </div>
+    {% endif %}
 {% endblock %}

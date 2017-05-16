@@ -39,3 +39,7 @@ class EditPofileFormAdmin(Form):
 class PostForm(Form):
     body = TextAreaField("what's on your mind?", validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+
+class ReadForm(Form):
+    submit = SubmitField('Read')
