@@ -2,7 +2,7 @@ from flask_wtf import Form
 from wtforms import StringField, TextAreaField, SubmitField, BooleanField, SelectField
 from wtforms.validators import Length, DataRequired, Email, Regexp
 from app.models import User, Role
-
+from flask_pagedown.fields import PageDownField
 
 class EditPofileForm(Form):
     name = StringField('Real name', validators=[Length(0, 64)])
@@ -37,7 +37,7 @@ class EditPofileFormAdmin(Form):
 
 
 class PostForm(Form):
-    body = TextAreaField("what's on your mind?", validators=[DataRequired()])
+    body = PageDownField("what's on your mind?", validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 

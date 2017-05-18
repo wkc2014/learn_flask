@@ -5,7 +5,8 @@ from flask_login import UserMixin, AnonymousUserMixin
 from flask import current_app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
-
+from markdown import markdown
+import bleach
 
 class Permission:
     FOLLOW = 0x01
@@ -179,6 +180,13 @@ class Post(db.Model):
     body = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
     anchor_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    body_html = db.Column(db.Text)
+
+    @staticmethod
+    def on_change_body(target, value, oldvalue, initiator):
+        allowed_tags = ['a','abbr','acronym','ul','h1']
+        target.body_html = bleach.linkify(bleach.clean(markdown(value, output_format='html'),
+                                                       tags=allowed_tags,strip=True))
 
     @staticmethod
     def generate_fake(count=100):
@@ -198,3 +206,4 @@ class Post(db.Model):
             db.session.add(p)
             db.session.commit()
 
+db.event.listen(Post.body,'set',Post.on_change_body)
