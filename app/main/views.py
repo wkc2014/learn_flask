@@ -2,31 +2,26 @@ from app.decorators import admin_required
 from . import main, Permission
 from .forms import EditPofileForm, EditPofileFormAdmin, PostForm, ReadForm
 from flask import render_template, abort, redirect, url_for, flash, request, current_app
-from app.models import User, db, Role, Drops, Post
+from app.models import User, db, Role, Drops, Post, Article
 from flask_login import current_user, login_required
 
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = PostForm()
+    articles = Article.query.order_by(Article.timestamp.desc()).limit(10)
+    return render_template('index.html', form=form, posts=articles)
+
+
+@main.route('/article', methods=['GET', 'POST'])
+def article():
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False
     )
     posts = pagination.items
+    return render_template('article.html', posts=posts, pagination=pagination)
 
-    if current_user.can(Permission.WRITE_ARTICLES) and form.validate_on_submit():
-        post = Post(body=form.body.data,
-                    author=current_user._get_current_object())
-        db.session.add(post)
-        return redirect(url_for('.index'))
-
-    return render_template('index.html', form=form, posts=posts, pagination=pagination)
-
-
-@main.route('/article', methods=['GET', 'POST'])
-def article():
-    return render_template('article.html')
 
 
 @main.route('/user/<username>')
@@ -125,6 +120,11 @@ def edit(id):
         post.body = form.body.data
         db.session.add(post)
         flash('The post has been updated')
+        db.session.commit()
         return redirect(url_for('.post',id=post.id))
     form.body.data=post.body
     return render_template('edit_post.html', form=form)
+
+@main.route('/about', methods=['GET', 'POST'])
+def about():
+    return render_template('about.html')

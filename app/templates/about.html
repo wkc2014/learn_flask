@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %} 关于 {% endblock %}
+
+{% block content %}
+    <div class="container">
+        ##搭建体系 Flask + Gunicorn + Nginx
+    </div>
+{% endblock %}
+
+{% block scripts%}
+{{super()}}
+{{pagedown.include_pagedown()}}
+{% endblock%}

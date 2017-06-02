@@ -1,6 +1,6 @@
 {% extends "bootstrap/base.html" %}
 {{ super() }}
-{% block title %} Flasky {% endblock %}
+{% block title %} Nine {% endblock %}
 
 {% block navbar %}
     <div class="navbar navbar-inverse" role="navigation">
@@ -12,12 +12,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Flasky</a>
+                <a class="navbar-brand" href="/">Nine</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">Home</a></li>
-                    <li><a href={{ url_for('main.article') }}>Article</a></li>
+                    <li><a href="/">首页</a></li>
+                    <li><a href={{ url_for('main.article') }}>文章</a></li>
+                    <li><a href={{ url_for('main.about') }}>关于</a></li>
                     <li><a href={{ url_for('main.drops') }}>Drops</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

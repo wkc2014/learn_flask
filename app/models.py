@@ -155,10 +155,12 @@ login_manager.anonymous_user = AnonymousUser
 class Article(db.Model):
     __tablename__ = 'articles'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(40), unique=True, index=True)
-    content = db.Column(db.Text, unique=True, index=True)
+    title = db.Column(db.String(40))
+    body = db.Column(db.Text)
+    content = db.Column(db.Text)
     comments = db.Column(db.String(128))
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
+    view_count = db.Column(db.Integer)
 
 
 class Comment(db.Model):
