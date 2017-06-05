@@ -138,6 +138,7 @@ class User(UserMixin, db.Model):
 
 
 class AnonymousUser(AnonymousUserMixin):
+
     def can(self, permissions):
         return False
 
@@ -161,7 +162,20 @@ class Article(db.Model):
     content = db.Column(db.Text)
     comments = db.Column(db.String(128))
     timestamp = db.Column(db.DateTime)
+    create_time = db.Column(db.DateTime)
+    update_time = db.Column(db.DateTime)
     view_count = db.Column(db.Integer)
+
+    @staticmethod
+    def on_change_body(target, value, oldvalue, initiator):
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code', 'em', 'li', 'i',
+                        'ol', 'pre', 'strong', 'ul', 'h1', 'h2', 'h3', 'p', ]
+        target.body = bleach.linkify(bleach.clean(
+            markdown(value, output_format='html'),
+            tags=allowed_tags, strip=True))
+
+
+
 
 
 class Comment(db.Model):
@@ -213,3 +227,5 @@ class Post(db.Model):
 
 
 db.event.listen(Post.body, 'set', Post.on_change_body)
+
+db.event.listen(Article.content, 'set', Article.on_change_body)

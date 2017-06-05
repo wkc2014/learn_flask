@@ -1,0 +1,19 @@
+{% import "bootstrap/wtf.html" as wtf %}
+<div>
+    <ul class="posts">
+        {% for post in posts %}
+        <li class="post">
+            <div class="navbar">
+                <p class="text-info"><h1>{{post.title}}</h1></p>
+            </div>
+            <div class="post-content">
+                {% if post.body %}
+                {{post.body | safe}}
+                {% else %}
+                {{post.content}}
+                {% endif %}
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

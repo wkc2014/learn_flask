@@ -1,6 +1,6 @@
 from app.decorators import admin_required
 from . import main, Permission
-from .forms import EditPofileForm, EditPofileFormAdmin, PostForm, ReadForm
+from .forms import EditPofileForm, EditPofileFormAdmin, PostForm, ReadForm, ArticleForm
 from flask import render_template, abort, redirect, url_for, flash, request, current_app
 from app.models import User, db, Role, Drops, Post, Article
 from flask_login import current_user, login_required
@@ -9,20 +9,23 @@ from flask_login import current_user, login_required
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = PostForm()
-    articles = Article.query.order_by(Article.timestamp.desc()).limit(10)
+    articles = Article.query.order_by(Article.create_time.desc()).limit(10)
     return render_template('index.html', form=form, posts=articles)
 
 
-@main.route('/article', methods=['GET', 'POST'])
-def article():
+@main.route('/articles', methods=['GET', 'POST'])
+def articles():
     page = request.args.get('page', 1, type=int)
-    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
+    pagination = Article.query.order_by(Article.create_time.desc()).paginate(
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False
     )
     posts = pagination.items
     return render_template('article.html', posts=posts, pagination=pagination)
 
-
+@main.route('/article/<int:id>', methods=['GET', 'POST'])
+def article(id):
+    post = Article.query.get_or_404(id)
+    return render_template('article.html', posts=[post])
 
 @main.route('/user/<username>')
 def user(username):
@@ -105,10 +108,7 @@ def drops():
 def per_drops(drops_name):
     return render_template(drops_name)
 
-@main.route('/post/<int:id>', methods=['GET', 'POST'])
-def post(id):
-    post = Post.query.get_or_404(id)
-    return render_template('post.html', posts=[post])
+
 
 @main.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit(id):
@@ -131,3 +131,18 @@ def about():
     id = 71
     post = Post.query.get_or_404(id)
     return render_template('about.html', posts=post, form=form)
+
+@main.route('/edit_article/<int:id>', methods=['GET', 'POST'])
+def edit_article(id):
+    article = Article.query.get_or_404(id)
+    if not current_user.can(Permission.ADMINISTER):
+        abort(403)
+    form = ArticleForm()
+    if form.validate_on_submit():
+        article.content = form.content.data
+        db.session.add(article)
+        flash('The post has been updated')
+        db.session.commit()
+        return redirect(url_for('.article',id=article.id))
+    form.content.data=article.content
+    return render_template('edit_post.html', form=form, posts = article)

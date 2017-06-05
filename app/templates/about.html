@@ -15,11 +15,8 @@
                 {{posts.body}}
                 {% endif %}
                 <div class="post-footer">
-                    {% if current_user == posts.author %}
-                     <a href="{{url_for('.edit', id=posts.id)}}">
-                        <span class="label label-default">Edit</span>
-                    </a>
-                    {% elif current_user.is_administrator()%}
+
+                    {% if current_user.is_administrator()%}
                      <a href="{{url_for('.edit', id=posts.id)}}">
                         <span class="label label-default">Edit[Admin]</span>
                     </a>

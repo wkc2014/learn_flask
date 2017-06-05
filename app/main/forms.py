@@ -40,6 +40,9 @@ class PostForm(Form):
     body = PageDownField("what's on your mind?", validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+class ArticleForm(Form):
+    content = PageDownField("what's on your mind?", validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 class ReadForm(Form):
     submit = SubmitField('Read')
