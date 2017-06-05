@@ -22,10 +22,13 @@ def articles():
     posts = pagination.items
     return render_template('article.html', posts=posts, pagination=pagination)
 
+
 @main.route('/article/<int:id>', methods=['GET', 'POST'])
 def article(id):
-    post = Article.query.get_or_404(id)
-    return render_template('article.html', posts=[post])
+    article = Article.query.get_or_404(id)
+    article.add_view(article, db)
+    return render_template('view-article.html', post=article)
+
 
 @main.route('/user/<username>')
 def user(username):
@@ -109,7 +112,6 @@ def per_drops(drops_name):
     return render_template(drops_name)
 
 
-
 @main.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit(id):
     post = Post.query.get_or_404(id)
@@ -121,9 +123,10 @@ def edit(id):
         db.session.add(post)
         flash('The post has been updated')
         db.session.commit()
-        return redirect(url_for('.post',id=post.id))
-    form.body.data=post.body
+        return redirect(url_for('.post', id=post.id))
+    form.body.data = post.body
     return render_template('edit_post.html', form=form)
+
 
 @main.route('/about', methods=['GET', 'POST'])
 def about():
@@ -131,6 +134,7 @@ def about():
     id = 71
     post = Post.query.get_or_404(id)
     return render_template('about.html', posts=post, form=form)
+
 
 @main.route('/edit_article/<int:id>', methods=['GET', 'POST'])
 def edit_article(id):
@@ -143,6 +147,6 @@ def edit_article(id):
         db.session.add(article)
         flash('The post has been updated')
         db.session.commit()
-        return redirect(url_for('.article',id=article.id))
-    form.content.data=article.content
-    return render_template('edit_post.html', form=form, posts = article)
+        return redirect(url_for('.article', id=article.id))
+    form.content.data = article.content
+    return render_template('edit_post.html', form=form, posts=article)

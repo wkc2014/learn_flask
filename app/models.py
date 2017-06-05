@@ -138,7 +138,6 @@ class User(UserMixin, db.Model):
 
 
 class AnonymousUser(AnonymousUserMixin):
-
     def can(self, permissions):
         return False
 
@@ -164,7 +163,7 @@ class Article(db.Model):
     timestamp = db.Column(db.DateTime)
     create_time = db.Column(db.DateTime)
     update_time = db.Column(db.DateTime)
-    view_count = db.Column(db.Integer)
+    view_count = db.Column(db.Integer, default=0)
 
     @staticmethod
     def on_change_body(target, value, oldvalue, initiator):
@@ -174,8 +173,11 @@ class Article(db.Model):
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
 
-
-
+    @staticmethod
+    def add_view(article, db):
+        article.view_count += 1
+        db.session.add(article)
+        db.session.commit()
 
 
 class Comment(db.Model):
