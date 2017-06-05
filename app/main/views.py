@@ -127,4 +127,7 @@ def edit(id):
 
 @main.route('/about', methods=['GET', 'POST'])
 def about():
-    return render_template('about.html')
+    form = PostForm()
+    id = 71
+    post = Post.query.get_or_404(id)
+    return render_template('about.html', posts=post, form=form)

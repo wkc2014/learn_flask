@@ -8,6 +8,7 @@ from datetime import datetime
 from markdown import markdown
 import bleach
 
+
 class Permission:
     FOLLOW = 0x01
     COMMENT = 0x02
@@ -159,7 +160,7 @@ class Article(db.Model):
     body = db.Column(db.Text)
     content = db.Column(db.Text)
     comments = db.Column(db.String(128))
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
+    timestamp = db.Column(db.DateTime)
     view_count = db.Column(db.Integer)
 
 
@@ -186,9 +187,11 @@ class Post(db.Model):
 
     @staticmethod
     def on_change_body(target, value, oldvalue, initiator):
-        allowed_tags = ['a','abbr','acronym','ul','h1']
-        target.body_html = bleach.linkify(bleach.clean(markdown(value, output_format='html'),
-                                                       tags=allowed_tags,strip=True))
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code', 'em', 'li', 'i',
+                        'ol', 'pre', 'strong', 'ul', 'h1', 'h2', 'h3', 'p', ]
+        target.body_html = bleach.linkify(bleach.clean(
+            markdown(value, output_format='html'),
+            tags=allowed_tags, strip=True))
 
     @staticmethod
     def generate_fake(count=100):
@@ -199,13 +202,14 @@ class Post(db.Model):
 
         user_count = User.query.count()
         for i in xrange(count):
-            u = User.query.offset(randint(0, user_count-1)).first()
+            u = User.query.offset(randint(0, user_count - 1)).first()
             p = Post(
-                body = forgery_py.lorem_ipsum.sentences(randint(1,3)),
-                timestamp = forgery_py.date.date(),
+                body=forgery_py.lorem_ipsum.sentences(randint(1, 3)),
+                timestamp=forgery_py.date.date(),
                 anchor_id=u.id
             )
             db.session.add(p)
             db.session.commit()
 
-db.event.listen(Post.body,'set',Post.on_change_body)
+
+db.event.listen(Post.body, 'set', Post.on_change_body)
