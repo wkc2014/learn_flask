@@ -1,3 +1,4 @@
+# encoding:utf-8
 from flask_wtf import Form
 from wtforms import StringField, TextAreaField, SubmitField, BooleanField, SelectField
 from wtforms.validators import Length, DataRequired, Email, Regexp
@@ -41,13 +42,14 @@ class PostForm(Form):
     submit = SubmitField('Submit')
 
 class ArticleForm(Form):
-    content = PageDownField("what's on your mind?", validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    title = PageDownField(u"标题", validators=[DataRequired()])
+    content = PageDownField(u"内容", validators=[DataRequired()])
+    submit = SubmitField(u'保存')
 
 class AddArticleForm(Form):
-    title =  PageDownField("Title", validators=[DataRequired()])
-    content = PageDownField("write what you Think And Learn!", validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    title =  PageDownField(u"标题", validators=[DataRequired()])
+    content = PageDownField(u"内容", validators=[DataRequired()])
+    submit = SubmitField(u'保存')
 
 
 class ReadForm(Form):

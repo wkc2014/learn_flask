@@ -133,9 +133,10 @@ def edit(id):
 
 @main.route('/about', methods=['GET', 'POST'])
 def about():
-    form = PostForm()
-    id = 71
-    post = Post.query.get_or_404(id)
+    form = ArticleForm()
+    id = 1
+    post = Article.query.get_or_404(id)
+    post.add_view(post, db)
     return render_template('about.html', posts=post, form=form)
 
 
@@ -147,13 +148,16 @@ def edit_article(id):
         abort(403)
     form = ArticleForm()
     if form.validate_on_submit():
+        article.title = form.title.data
         article.content = form.content.data
         db.session.add(article)
         flash('The post has been updated')
         db.session.commit()
         return redirect(url_for('.article', id=article.id))
+    form.title.data = article.title
     form.content.data = article.content
     return render_template('edit_post.html', form=form, posts=article)
+
 
 @main.route('/add_article', methods=['GET', 'POST'])
 @login_required
@@ -161,6 +165,7 @@ def add_article():
     if not current_user.can(Permission.ADMINISTER):
         abort(403)
     form = AddArticleForm()
+    article = Article()
     if form.validate_on_submit():
         article.title = form.title.data
         article.content = form.content.data
@@ -168,6 +173,5 @@ def add_article():
         flash('The article has been updated')
         db.session.commit()
         return redirect(url_for('.article', id=article.id))
-    form.content.data = article.content
+    # form.content.data = article.content
     return render_template('add_article.html', form=form, posts=article)
-

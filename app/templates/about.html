@@ -3,32 +3,22 @@
 {% block title %} 关于 {% endblock %}
 
 {% block content %}
-<div class="page-header">
-
-</div>
-<div class="container">
-    <div>
-            <div class="post-content">
-                {% if posts.body_html %}
-                {{posts.body_html | safe}}
-                {% else %}
-                {{posts.body}}
-                {% endif %}
-                <div class="post-footer">
-
-                    {% if current_user.is_administrator()%}
-                     <a href="{{url_for('.edit', id=posts.id)}}">
-                        <span class="label label-default">Edit[Admin]</span>
-                    </a>
-                    {%endif%}
+    <div class="container jumbotron">
+        <div class="navbar ">
+            <div class="navbar ">
+                <p class="text-info">{{ posts.title }}</p>
+                <p class="text-info">Nine | 阅读：{{ posts.view_count }}</p>
+            </div>
+            <div>
+                <div class="post-content">
+                    {% if posts.body %}
+                        {{ posts.body | safe }}
+                    {% else %}
+                        {{ posts.content }}
+                    {% endif %}
                 </div>
             </div>
+        </div>
     </div>
-</div>
-
 {% endblock %}
 
-{% block scripts%}
-{{super()}}
-{{pagedown.include_pagedown()}}
-{% endblock%}

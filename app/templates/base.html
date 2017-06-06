@@ -22,7 +22,7 @@
 
                     {% if current_user.is_authenticated %}
                         <li><a href={{ url_for('main.drops') }}>Drops</a></li>
-                        <li><a href={{ url_for('main.drops') }}>添加文章</a></li>
+                        <li><a href={{ url_for('main.add_article') }}>添加文章</a></li>
                     {% endif %}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
