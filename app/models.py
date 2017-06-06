@@ -160,8 +160,7 @@ class Article(db.Model):
     body = db.Column(db.Text)
     content = db.Column(db.Text)
     comments = db.Column(db.String(128))
-    timestamp = db.Column(db.DateTime)
-    create_time = db.Column(db.DateTime)
+    create_time = db.Column(db.DateTime, default=datetime.now)
     update_time = db.Column(db.DateTime)
     view_count = db.Column(db.Integer, default=0)
 

@@ -1,6 +1,6 @@
 from app.decorators import admin_required
 from . import main, Permission
-from .forms import EditPofileForm, EditPofileFormAdmin, PostForm, ReadForm, ArticleForm
+from .forms import EditPofileForm, EditPofileFormAdmin, PostForm, AddArticleForm, ArticleForm
 from flask import render_template, abort, redirect, url_for, flash, request, current_app
 from app.models import User, db, Role, Drops, Post, Article
 from flask_login import current_user, login_required
@@ -97,6 +97,7 @@ def edit_profile_admin_list():
 
 
 @main.route('/drops', methods=['GET', 'POST'])
+@login_required
 def drops():
     page = request.args.get('page', default=1, type=int)
     pagination = Drops.query.order_by(Drops.id).paginate(
@@ -108,11 +109,13 @@ def drops():
 
 
 @main.route('/<drops_name>', methods=['GET', 'POST'])
+@login_required
 def per_drops(drops_name):
     return render_template(drops_name)
 
 
 @main.route('/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
 def edit(id):
     post = Post.query.get_or_404(id)
     if current_user != post.author and not current_user.can(Permission.ADMINISTER):
@@ -137,6 +140,7 @@ def about():
 
 
 @main.route('/edit_article/<int:id>', methods=['GET', 'POST'])
+@login_required
 def edit_article(id):
     article = Article.query.get_or_404(id)
     if not current_user.can(Permission.ADMINISTER):
@@ -150,3 +154,20 @@ def edit_article(id):
         return redirect(url_for('.article', id=article.id))
     form.content.data = article.content
     return render_template('edit_post.html', form=form, posts=article)
+
+@main.route('/add_article', methods=['GET', 'POST'])
+@login_required
+def add_article():
+    if not current_user.can(Permission.ADMINISTER):
+        abort(403)
+    form = AddArticleForm()
+    if form.validate_on_submit():
+        article.title = form.title.data
+        article.content = form.content.data
+        db.session.add(article)
+        flash('The article has been updated')
+        db.session.commit()
+        return redirect(url_for('.article', id=article.id))
+    form.content.data = article.content
+    return render_template('add_article.html', form=form, posts=article)
+

@@ -1,10 +1,13 @@
+{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %} {{post.title}} {% endblock %}
+{% block page_content %}
 <div>
     <ul class="posts">
 
             <div class="navbar">
                 <p class="text-info"><h1>{{post.title}}</h1></p>
+                <p class="text-info">Nine | 阅读：{{post.view_count}}</p>
             </div>
             <div class="post-content">
                 {% if post.body %}
@@ -16,3 +19,4 @@
 
     </ul>
 </div>
+{% endblock %}

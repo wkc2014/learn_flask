@@ -44,5 +44,11 @@ class ArticleForm(Form):
     content = PageDownField("what's on your mind?", validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+class AddArticleForm(Form):
+    title =  PageDownField("Title", validators=[DataRequired()])
+    content = PageDownField("write what you Think And Learn!", validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
 class ReadForm(Form):
     submit = SubmitField('Read')
