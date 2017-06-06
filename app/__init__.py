@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from config import config
@@ -36,4 +36,3 @@ def create_app(config_name='default'):
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
     return app
-

@@ -27,10 +27,11 @@ def articles():
 def article(id):
     article = Article.query.get_or_404(id)
     article.add_view(article, db)
-    return render_template('view-article.html', post=article)
+    return render_template('view_article.html', post=article)
 
 
 @main.route('/user/<username>')
+@login_required
 def user(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
@@ -55,7 +56,7 @@ def edit_profile():
     form.location.data = current_user.location
     form.about_me.data = current_user.about_me
 
-    return render_template('edit-profile.html', form=form)
+    return render_template('edit_profile.html', form=form)
 
 
 @main.route('/edit-profile/<int:id>', methods=['GET', 'POST'])
@@ -84,7 +85,7 @@ def edit_profile_admin(id):
     form.role.data = user.role
     form.confirmed.data = user.confirmed
 
-    return render_template('edit-profile.html', form=form, user=user)
+    return render_template('edit_profile.html', form=form, user=user)
 
 
 @main.route('/edit-profile/userlist', methods=['GET', 'POST'])
@@ -98,7 +99,7 @@ def edit_profile_admin_list():
 
 @main.route('/drops', methods=['GET', 'POST'])
 @login_required
-def drops():
+def drops_list():
     page = request.args.get('page', default=1, type=int)
     pagination = Drops.query.order_by(Drops.id).paginate(
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False
@@ -107,29 +108,11 @@ def drops():
 
     return render_template('drops.html', posts=d_posts, pagination=pagination)
 
-
-@main.route('/<drops_name>', methods=['GET', 'POST'])
+@main.route('/drops/<drops_name>', methods=['GET', 'POST'])
 @login_required
-def per_drops(drops_name):
-    return render_template(drops_name)
-
-
-@main.route('/edit/<int:id>', methods=['GET', 'POST'])
-@login_required
-def edit(id):
-    post = Post.query.get_or_404(id)
-    if current_user != post.author and not current_user.can(Permission.ADMINISTER):
-        abort(403)
-    form = PostForm()
-    if form.validate_on_submit():
-        post.body = form.body.data
-        db.session.add(post)
-        flash('The post has been updated')
-        db.session.commit()
-        return redirect(url_for('.post', id=post.id))
-    form.body.data = post.body
-    return render_template('edit_post.html', form=form)
-
+def drops(drops_name):
+    drops = Drops.query.get_or_404(drops_name)
+    return render_template(drops.path)
 
 @main.route('/about', methods=['GET', 'POST'])
 def about():
@@ -173,5 +156,5 @@ def add_article():
         flash('The article has been updated')
         db.session.commit()
         return redirect(url_for('.article', id=article.id))
-    # form.content.data = article.content
     return render_template('add_article.html', form=form, posts=article)
+

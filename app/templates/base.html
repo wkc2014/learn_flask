@@ -21,7 +21,7 @@
                     <li><a href={{ url_for('main.about') }}>关于</a></li>
 
                     {% if current_user.is_authenticated %}
-                        <li><a href={{ url_for('main.drops') }}>Drops</a></li>
+                        <li><a href={{ url_for('main.drops_list') }}>Drops</a></li>
                         <li><a href={{ url_for('main.add_article') }}>添加文章</a></li>
                     {% endif %}
                 </ul>
