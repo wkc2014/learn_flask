@@ -108,7 +108,7 @@ def drops_list():
 
     return render_template('drops.html', posts=d_posts, pagination=pagination)
 
-@main.route('/drops/<drops_name>', methods=['GET', 'POST'])
+@main.route('/<drops_name>', methods=['GET', 'POST'])
 @login_required
 def drops(drops_name):
     drops = Drops.query.get_or_404(drops_name)

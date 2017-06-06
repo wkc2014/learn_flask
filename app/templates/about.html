@@ -3,14 +3,14 @@
 {% block title %} 关于 {% endblock %}
 
 {% block content %}
-    <div class="container jumbotron">
+    <div class="container ">
         <div class="navbar ">
-            <div class="navbar ">
+            <div class="navbar page-header">
                 <p class="text-info">{{ posts.title }}</p>
-                <p class="text-info">Nine | 阅读：{{ posts.view_count }}</p>
+                <p class="text-info"><h5>Nine | 阅读：{{ posts.view_count }}</h5></p>
             </div>
             <div>
-                <div class="post-content">
+                <div class="post-content ">
                     {% if posts.body %}
                         {{ posts.body | safe }}
                     {% else %}
@@ -21,4 +21,3 @@
         </div>
     </div>
 {% endblock %}
-
