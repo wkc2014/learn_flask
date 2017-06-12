@@ -163,6 +163,7 @@ class Article(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now)
     update_time = db.Column(db.DateTime)
     view_count = db.Column(db.Integer, default=0)
+    tagId = db.Column(db.Integer)
 
     @staticmethod
     def on_change_body(target, value, oldvalue, initiator):
@@ -178,6 +179,11 @@ class Article(db.Model):
         db.session.add(article)
         db.session.commit()
 
+class Tags(db.Model):
+    __tablename__ = 'tags'
+    id = db.Column(db.Integer, primary_key=True)
+    tag_name = db.Column(db.String(40))
+    ext = db.Column(db.String)
 
 class Comment(db.Model):
     __tablename__ = 'comments'
