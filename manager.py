@@ -16,6 +16,17 @@ def dev():
     liver_server.watch('**/*.*')
     liver_server.serve(open_url_delay=True)
 
+@manager.command
+def deploy():
+    "Run deployment tasks."
+    from flask_migrate import upgrade
+    from app.models import Role, User
+
+    #update db
+    upgrade()
+
+    #create Role
+    Role.insert_roles()
 
 @manager.command
 def test():
