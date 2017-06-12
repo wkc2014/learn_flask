@@ -3,6 +3,7 @@ from app import create_app, db
 from flask_migrate import MigrateCommand, Migrate
 from app.models import User, Role, Comment, Drops, Article
 
+
 app = create_app()
 manager = Manager(app)
 migrate = Migrate(app, db)
@@ -16,6 +17,12 @@ def dev():
     liver_server.watch('**/*.*')
     liver_server.serve(open_url_delay=True)
 
+@manager.command
+def deploy():
+    from app.models import User,Role
+    from flask_migrate import upgrade
+
+    upgrade()
 
 @manager.command
 def test():

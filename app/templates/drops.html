@@ -14,12 +14,10 @@
         {% for post in posts %}
             <tr>
                 <td id="{{ post.id }}">
-                    <a href="{{ url_for('main.per_drops', drops_name=post.path) }}"
+                    <a href="{{ url_for('main.drops', drops_name=post.path) }}"
                        target="_blank">{{ post.name }}</a>
                 </td>
-                <td align="right" width="100">
-                    <a type="submit">已阅</a>
-                </td>
+
             </tr>
         {% endfor %}
     </table>
@@ -27,7 +25,7 @@
     {% import "_macros.html" as macros %}
     {% if pagination %}
         <div class="pagination">
-            {{ macros.pagination_widget(pagination, '.drops') }}
+            {{ macros.pagination_widget(pagination, '.drops_list') }}
         </div>
     {% endif %}
 {% endblock %}
