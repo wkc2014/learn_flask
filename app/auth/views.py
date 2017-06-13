@@ -29,23 +29,24 @@ def logout():
     return render_template('index.html')
 
 
-# @auth.route('/register', methods=['GET', 'POST'])
-# def register():
-#     form = RegistrationForm()
-#     if form.validate_on_submit():
-#         user = User(username=form.username.data,
-#                     email=form.email.data,
-#                     password=form.password.data)
-#         db.session.add(user)
-#         db.session.commit()
-#
-#         token = user.generate_confirmation_token()
-#         # send_email(user.email, "Confirm Your Account", 'auth/email/confirm', user=user, token=token)
-#         flash("A confirm email has been sent to you by email.")
-#
-#         return redirect(url_for('main.index'))
-#
-#     return render_template('auth/register.html', form=form)
+@auth.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data,
+                    email=form.email.data,
+                    password=form.password.data)
+
+        db.session.add(user)
+        db.session.commit()
+
+        # token = user.generate_confirmation_token()
+        # send_email(user.email, "Confirm Your Account", 'auth/email/confirm', user=user, token=token)
+        # flash("A confirm email has been sent to you by email.")
+
+        return redirect(url_for('main.index'))
+
+    return render_template('auth/register.html', form=form)
 
 
 # @auth.route('/confirm/<token>')
@@ -58,8 +59,8 @@ def logout():
 #     else:
 #         flash("The confirmation link is invalid or has expired")
 #     return redirect(url_for('main.index'))
-
-
+#
+#
 # @auth.before_app_request
 # def before_request():
 #     if current_user.is_authenticated:
