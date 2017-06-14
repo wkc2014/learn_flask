@@ -1,6 +1,7 @@
+# -*- coding:utf-8 -*-
 from flask import render_template, redirect, url_for, request, flash
 from . import auth
-from forms import LoginForm, RegistrationForm
+from forms import LoginForm  # , RegistrationForm
 from app.models import User
 from flask_login import login_user, logout_user, login_required, current_user
 from app import db
@@ -14,9 +15,9 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.vertify_password(form.password.data):
             login_user(user, form.rember_me.data)
-            flash('Logged in successfully.')
+            flash(u'登录成功')
         return redirect(request.args.get('next') or url_for('main.index'))
-        flash("Invalid username or password")
+        flash(u"密码或账号错误")
 
     return render_template('auth/login.html', form=form)
 
@@ -25,28 +26,27 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash("You hava been loggde out")
+    flash(u"已经登出")
     return render_template('index.html')
 
-
-@auth.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(username=form.username.data,
-                    email=form.email.data,
-                    password=form.password.data)
-
-        db.session.add(user)
-        db.session.commit()
-
-        # token = user.generate_confirmation_token()
-        # send_email(user.email, "Confirm Your Account", 'auth/email/confirm', user=user, token=token)
-        # flash("A confirm email has been sent to you by email.")
-
-        return redirect(url_for('main.index'))
-
-    return render_template('auth/register.html', form=form)
+# @auth.route('/register', methods=['GET', 'POST'])
+# def register():
+#     form = RegistrationForm()
+#     if form.validate_on_submit():
+#         user = User(username=form.username.data,
+#                     email=form.email.data,
+#                     password=form.password.data)
+#
+#         db.session.add(user)
+#         db.session.commit()
+#
+#         # token = user.generate_confirmation_token()
+#         # send_email(user.email, "Confirm Your Account", 'auth/email/confirm', user=user, token=token)
+#         # flash("A confirm email has been sent to you by email.")
+#
+#         return redirect(url_for('main.index'))
+#
+#     return render_template('auth/register.html', form=form)
 
 
 # @auth.route('/confirm/<token>')
