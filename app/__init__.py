@@ -6,12 +6,12 @@ from flask_login import LoginManager
 from flask_moment import Moment
 from flask_mail import Mail
 from flask_pagedown import PageDown
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CsrfProtect
 
 login_manager = LoginManager()
 login_manager.session_protection = 'Strong'
 login_manager.login_view = 'auth.login'
-csrf = CSRFProtect()
+csrf = CsrfProtect()
 db = SQLAlchemy()
 bootstrap = Bootstrap()
 mail = Mail()
