@@ -1,5 +1,14 @@
 {% extends "bootstrap/base.html" %}
 {{ super() }}
+
+{%- block metas %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="分享Web安全相关知识">
+    <meta name="keywords" content="Web安全,挖漏洞,Python">
+{%- endblock metas %}
 {% block title %} Nine {% endblock %}
 
 {% block navbar %}
