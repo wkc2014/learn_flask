@@ -51,11 +51,10 @@ def drops(drops_name):
 
 @main.route('/about', methods=['GET', 'POST'])
 def about():
-    form = ArticleForm()
     id = 1
     post = Article.query.get_or_404(id)
     post.add_view(post, db)
-    return render_template('about.html', posts=post, form=form)
+    return render_template('about.html', posts=post)
 
 
 @main.route('/edit_article/<int:id>', methods=['GET', 'POST'])
