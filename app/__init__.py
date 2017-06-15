@@ -19,6 +19,11 @@ moment = Moment()
 pagedown = PageDown()
 
 
+def html_tag_filter(html_content):
+    result = html_content.replace('#', '').replace('<pre>', '').replace('</pre>', '')
+    return result
+
+
 def create_app(config_name='default'):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
@@ -31,6 +36,8 @@ def create_app(config_name='default'):
     moment.init_app(app)
     pagedown.init_app(app)
     csrf.init_app(app)
+
+    app.add_template_filter(html_tag_filter, 'html_tag_filter')
 
     from .main import main as main_blueprint
     from .auth import auth as auth_blueprint

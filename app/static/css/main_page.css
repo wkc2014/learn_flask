@@ -1,0 +1,50 @@
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Open Sans",sans-serif;
+    line-height: 1;
+    margin-top: 0;
+    text-rendering: optimizelegibility;
+}
+h1 {
+    font-size: 4rem;
+    letter-spacing: -2px;
+    line-height: 1.2em;
+    text-indent: -3px;
+}
+h2 {
+    font-size: 3.5rem;
+    letter-spacing: -1px;
+    line-height: 1.2em;
+    text-indent: -2px;
+}
+h3 {
+    font-size: 3rem;
+}
+h4 {
+    font-size: 2.75rem;
+}
+h5 {
+    font-size: 2.5rem;
+}
+.post {
+    border-bottom: 1px solid #ebf2f6;
+    margin-bottom: 2rem;
+    max-width: inherit;
+    overflow-wrap: break-word;
+    position: relative;
+}
+.main-inner {
+     max-width: 800px;
+}
+.post-meta {
+     color: #787878;
+     display: inline-block;
+     font-family: "Open Sans",sans-serif;
+     font-size: 14px;
+     line-height: 1.4em;
+     margin: 8px 0px;
+}
+.post-title {
+    color: #222;
+    margin: 0;
+}
