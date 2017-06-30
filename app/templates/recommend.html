@@ -4,16 +4,16 @@
 <main>
     <div class="main-inner">
         {% for post in posts %}
-            <article class="post" >
+            <article class="post">
                 <div>
-                    <h5 class="post-title">{{ post.title }}</h5>
+                    <h5 class="post-title"><a href="{{ url_for("main.article" , id=post.id) }}">{{ post.title }}</a></h5>
                 </div>
                 <div>
-                    <p class="post-meta">Admin | 阅读：{{post.view_count}}</p>
+                    <p class="post-meta">Admin | 阅读：{{ post.view_count }} | {{ post.create_time }}</p>
                 </div>
                 <section class="post-content">
                     {% if post.body %}
-                        {{ post.content[0:300] | html_tag_filter}}
+                        {{ post.content[0:300] | html_tag_filter }}
                     {% else %}
                         {{ post.content }}
                     {% endif %}
