@@ -7,7 +7,7 @@
 
             <div class="navbar">
                 <p class="text-info"><h1>{{post.title}}</h1></p>
-                <p class="text-info">Admin | 阅读：{{post.view_count}}</p>
+                <p class="text-info">Admin | 阅读：{{post.view_count}} | {{ post.create_time.strftime('%Y-%m-%d') }}</p>
             </div>
             <div class="post-content">
                 {% if post.body %}

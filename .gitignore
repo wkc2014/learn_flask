@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
 # Byte-compiled / optimized / DLL files
@@ -103,3 +104,10 @@ app/static/drops_html/
 data-dev.sqlite
 migrations/env.pyc
 migrations/versions/
+=======
+# 以'#'开始的行，被视为注释.
+
+*.sqlite
+*.idea
+*.[oa]
+>>>>>>> 3a58ad54aa57903bd2f6c613fd4fac9dc9e049d4
