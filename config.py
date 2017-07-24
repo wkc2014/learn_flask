@@ -5,7 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 pre_basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = 'SECRET_KEY'
     FLASKY_MAIL_SENDER = ''
     FLASKY_MAIL_SUBJECT_PREFIX = '<Flasky Admin <>>'
     FLASKY_ADMIN = ''
