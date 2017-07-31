@@ -1,5 +1,14 @@
-# 以'#'开始的行，被视为注释.
+# Created by .ignore support plugin (hsz.mobi)
+### Python template
 
+*.py[cod]
+*$py.class
+.Python
+.cache
+app/static/drops_html/
 *.sqlite
 *.idea
 *.[oa]
+migrations/versions
+config.py
+
