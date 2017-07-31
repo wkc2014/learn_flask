@@ -10,4 +10,5 @@ app/static/drops_html/
 *.idea
 *.[oa]
 migrations/versions
+config.py
 
