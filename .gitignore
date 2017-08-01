@@ -1,5 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
-### Python template
+# Python template
 
 *.py[cod]
 *$py.class
@@ -11,4 +11,12 @@ app/static/drops_html/
 *.[oa]
 migrations/versions
 config.py
+*.so
+*.egg
+*.egg-info
+dist
+build
+.idea
+*.cache
+
 
