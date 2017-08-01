@@ -168,10 +168,16 @@ class Article(db.Model):
     @staticmethod
     def on_change_body(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'acronym', 'b', 'blockquote', 'code', 'em', 'li', 'i',
-                        'ol', 'pre', 'strong', 'ul', 'h1', 'h2', 'h3', 'p', 'h4' ,'h5','h6','img']
+                        'ol', 'pre', 'strong', 'ul', 'h1', 'h2', 'h3', 'p', 'h4', 'h5', 'h6','img']
+        attrs = {
+            'a': ['href', 'title'],
+            'abbr': ['title'],
+            'acronym': ['title'],
+            'img': ['src', 'alt', 'title']
+        }
         target.body = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'),
-            tags=allowed_tags, strip=True))
+            tags=allowed_tags, attributes=attrs, strip=True))
 
     @staticmethod
     def add_view(article, db):
@@ -179,11 +185,13 @@ class Article(db.Model):
         db.session.add(article)
         db.session.commit()
 
+
 class Tags(db.Model):
     __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
     tag_name = db.Column(db.String(40))
     ext = db.Column(db.String)
+
 
 class Comment(db.Model):
     __tablename__ = 'comments'

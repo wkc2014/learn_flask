@@ -16,7 +16,6 @@ config.py
 *.egg-info
 dist
 build
-.idea
 *.cache
 
 
