@@ -20,7 +20,7 @@ def articles():
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False
     )
     posts = pagination.items
-    return render_template('article.html', posts=posts, pagination=pagination)
+    return render_template('article_list.html', posts=posts, pagination=pagination)
 
 
 @main.route('/article/<int:id>', methods=['GET', 'POST'])
@@ -57,9 +57,9 @@ def about():
     return render_template('about.html', posts=post)
 
 
-@main.route('/edit_article/<int:id>', methods=['GET', 'POST'])
+@main.route('/article_edit/<int:id>', methods=['GET', 'POST'])
 @login_required
-def edit_article(id):
+def article_edit(id):
     article = Article.query.get_or_404(id)
     if not current_user.can(Permission.ADMINISTER):
         abort(403)
@@ -76,9 +76,9 @@ def edit_article(id):
     return render_template('edit_post.html', form=form, posts=article)
 
 
-@main.route('/add_article', methods=['GET', 'POST'])
+@main.route('/article_add', methods=['GET', 'POST'])
 @login_required
-def add_article():
+def article_add():
     if not current_user.can(Permission.ADMINISTER):
         abort(403)
     form = AddArticleForm()
@@ -90,7 +90,18 @@ def add_article():
         flash('The article has been updated')
         db.session.commit()
         return redirect(url_for('.article', id=article.id))
-    return render_template('add_article.html', form=form, posts=article)
+    return render_template('article_add.html', form=form, posts=article)
+
+
+@main.route('/article_del/<int:id>', methods=['GET', 'POST'])
+@login_required
+def article_del(id):
+    article = Article.query.get_or_404(id)
+    db.session.delete(article)
+    flash('Delete Successful')
+    db.session.commit()
+    return redirect(url_for('.article', id=article.id))
+
 
 # @main.route('/user/<username>')
 # @login_required
