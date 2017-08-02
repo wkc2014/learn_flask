@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-# @Time    : 2017/8/1 14:07
-# @Author  : WANG KUNCHUN
-# @Site    : 
-# @File    : config.py
-# @Software: PyCharm
 # encoding:utf-8
 import os
 
