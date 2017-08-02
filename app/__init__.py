@@ -1,12 +1,13 @@
-from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
 from flask_bootstrap import Bootstrap
-from config import config
 from flask_login import LoginManager
-from flask_moment import Moment
 from flask_mail import Mail
+from flask_moment import Moment
 from flask_pagedown import PageDown
+from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
+
+from config import config
 
 login_manager = LoginManager()
 login_manager.session_protection = 'Strong'
