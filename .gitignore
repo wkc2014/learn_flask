@@ -9,7 +9,7 @@ app/static/drops_html/
 *.sqlite
 *.idea
 *.[oa]
-migrations/versions
+migrations
 *.so
 *.egg
 *.egg-info

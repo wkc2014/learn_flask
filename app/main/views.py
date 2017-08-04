@@ -27,7 +27,7 @@ def articles():
 def article(id):
     article = Article.query.get_or_404(id)
     article.add_view(article, db)
-    return render_template('view_article.html', post=article)
+    return render_template('article_view.html', post=article)
 
 
 @main.route('/drops', methods=['GET', 'POST'])
@@ -73,7 +73,7 @@ def article_edit(id):
         return redirect(url_for('.article', id=article.id))
     form.title.data = article.title
     form.content.data = article.content
-    return render_template('edit_post.html', form=form, posts=article)
+    return render_template('article_edit.html', form=form, posts=article)
 
 
 @main.route('/article_add', methods=['GET', 'POST'])

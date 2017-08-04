@@ -18,11 +18,8 @@
                                 <span class="label label-default">Edit</span>
                             </a>
                         {% elif current_user.is_administrator() %}
-                            <a href="{{ url_for('.article_edit', id=post.id) }}">
-                                <span class="label label-default">Edit[Admin]</span>
-                            </a>
-
-                            <a href={{ url_for('.article_del' , id=post.id)  }} > 删除</a>
+                            <a href="{{ url_for('.article_edit', id=post.id) }}">---编辑---</a> |
+                            <a href={{ url_for('.article_del' , id=post.id) }}> --删除---</a>
                         {% endif %}
 
                     </div>
