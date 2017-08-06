@@ -1,10 +1,11 @@
 # -*- coding:utf-8 -*-
 from app.decorators import admin_required
 from . import main, Permission
-from .forms import AddArticleForm, ArticleForm  # ,PostForm , EditPofileForm, EditPofileFormAdmin
+from .forms import AddArticleForm, ArticleForm, ArticleFormView  # ,PostForm , EditPofileForm, EditPofileFormAdmin
 from flask import render_template, abort, redirect, url_for, flash, request, current_app
 from app.models import User, db, Role, Drops, Post, Article
 from flask_login import current_user, login_required
+import time
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -13,8 +14,8 @@ def index():
     return render_template('index.html', posts=articles)
 
 
-@main.route('/articles', methods=['GET', 'POST'])
-def articles():
+@main.route('/article/list', methods=['GET', 'POST'])
+def article_list():
     page = request.args.get('page', 1, type=int)
     pagination = Article.query.order_by(Article.create_time.desc()).paginate(
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False
@@ -30,7 +31,7 @@ def article(id):
     return render_template('article_view.html', post=article)
 
 
-@main.route('/drops', methods=['GET', 'POST'])
+@main.route('/drops/', methods=['GET', 'POST'])
 @login_required
 def drops_list():
     page = request.args.get('page', default=1, type=int)
@@ -57,51 +58,63 @@ def about():
     return render_template('about.html', posts=post)
 
 
-@main.route('/article_edit/<int:id>', methods=['GET', 'POST'])
+@main.route('/article/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def article_edit(id):
     article = Article.query.get_or_404(id)
     if not current_user.can(Permission.ADMINISTER):
         abort(403)
     form = ArticleForm()
-    if form.validate_on_submit():
+    view_form = ArticleFormView()
+
+    if request.form.get('submit', None) == u"保存":
         article.title = form.title.data
         article.content = form.content.data
         db.session.add(article)
-        flash('The post has been updated')
         db.session.commit()
         return redirect(url_for('.article', id=article.id))
+    elif request.form.get('publish_view', None) == u"预览":
+        view_form.title.data = form.title.data
+        view_form.content.data = form.content.data
+        return render_template('admin/publish_view.html', form=view_form)
+
+    # 这里的赋值不能再submit之前，这样会导致不能更新数据
     form.title.data = article.title
     form.content.data = article.content
-    return render_template('article_edit.html', form=form, posts=article)
+    return render_template('admin/article_edit.html', form=form)
 
 
-@main.route('/article_add', methods=['GET', 'POST'])
+@main.route('/article/publish', methods=['GET', 'POST'])
 @login_required
-def article_add():
+def publish():
     if not current_user.can(Permission.ADMINISTER):
         abort(403)
     form = AddArticleForm()
+    view_form = ArticleFormView()
     article = Article()
-    if form.validate_on_submit():
+
+    if request.form.get('submit', None) == u"保存":
         article.title = form.title.data
         article.content = form.content.data
         db.session.add(article)
-        flash('The article has been updated')
         db.session.commit()
         return redirect(url_for('.article', id=article.id))
-    return render_template('article_add.html', form=form, posts=article)
+    elif request.form.get('publish_view', None) == u"预览":
+        view_form.title.data = form.title.data
+        view_form.content.data = form.content.data
+        return render_template('admin/publish_view.html', form=view_form)
+
+    return render_template('admin/publish.html', form=form)
 
 
-@main.route('/article_del/<int:id>', methods=['GET', 'POST'])
+@main.route('/article/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def article_del(id):
     article = Article.query.get_or_404(id)
     db.session.delete(article)
     flash('Delete Successful')
     db.session.commit()
-    return redirect(url_for('.article', id=article.id))
-
+    return redirect(url_for('.article_list'))
 
 # @main.route('/user/<username>')
 # @login_required

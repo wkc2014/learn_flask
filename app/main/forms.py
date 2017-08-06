@@ -57,3 +57,11 @@ class AddArticleForm(Form):
     title = PageDownField(u"标题", validators=[DataRequired()])
     content = PageDownField(u"内容", validators=[DataRequired()])
     submit = SubmitField(u'保存')
+    publish_view = SubmitField(u'预览')
+
+class ArticleFormView(Form):
+    title = PageDownField(u"标题", validators=[DataRequired()])
+    content = PageDownField(u"内容", validators=[DataRequired()])
+    submit = SubmitField(u'保存')
+    publish_view = SubmitField(u'返回')
+

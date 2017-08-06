@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %} 添加文章 {% endblock %}
+
+{% block page_content %}
+    <div class="page-header">
+        <h3>添加</h3>
+    </div>
+
+    <form method="post" class="form" role="form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div>
+            <label class="control-label" for="title">标题</label>
+            <div>
+                <textarea class="form-control" id="title" name="title" required rows="1"></textarea>
+            </div>
+
+        </div>
+        <div>
+            <label class="control-label" for="content">内容</label>
+            <div>
+                <textarea class="form-control" id="content" name="content" required rows="30"></textarea>
+            </div>
+        </div>
+
+        <input class="btn btn-default" id="submit" name="submit" type="submit" value="保存">
+        <input class="btn btn-default" id="publish_view" name="publish_view" type="submit" value="预览">
+    </form>
+
+{#        {{ wtf.quick_form(form) }}#}
+
+{% endblock %}
+{#{% block scripts%}#}
+{#{{super()}}#}
+{#{{pagedown.include_pagedown()}}#}
+{#{% endblock%}#}

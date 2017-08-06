@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %} 编辑文章 {% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h3>编辑文章</h3>
+</div>
+<div>
+    <form method="post" class="form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div>
+            <label class="control-label" for="title">标题</label>
+            <div>
+                <textarea class="form-control" id="title" name="title" required rows="1">{{ form.title.data }}</textarea>
+            </div>
+
+        </div>
+        <div>
+            <label class="control-label" for="content">内容</label>
+            <div>
+{#                {{ form.content }}#}
+                <textarea class="form-control" id="content" name="content" required rows="30">{{ form.content.data }}</textarea>
+            </div>
+        </div>
+
+        <input class="btn btn-default" id="submit" name="submit" type="submit" value="保存">
+        <input class="btn btn-default" id="publish_view" name="publish_view" type="submit" value="预览">
+    </form>
+</div>
+{% endblock %}
