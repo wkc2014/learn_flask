@@ -14,7 +14,7 @@ def index():
     return render_template('index.html', posts=articles)
 
 
-@main.route('/article/list', methods=['GET', 'POST'])
+@main.route('/list', methods=['GET', 'POST'])
 def article_list():
     page = request.args.get('page', 1, type=int)
     pagination = Article.query.order_by(Article.create_time.desc()).paginate(
